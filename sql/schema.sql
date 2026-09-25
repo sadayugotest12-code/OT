@@ -18,7 +18,7 @@ CREATE TABLE employees (
 	employee_code        VARCHAR(20)  NOT NULL UNIQUE,   -- ใช้เป็น username
 	name                 VARCHAR(100) NOT NULL,
 	rank                 VARCHAR(50)  DEFAULT '',
-	team_key             VARCHAR(20)  NOT NULL DEFAULT 'friSat' CHECK (team_key IN ('friSat', 'sunMon')),
+	team_key             VARCHAR(20)  NOT NULL DEFAULT 'friSat' CHECK (team_key IN ('friSat', 'sunMon', 'satSun')),
 	role                 VARCHAR(20)  NOT NULL DEFAULT 'employee' CHECK (role IN ('admin', 'supervisor', 'employee')),
 	supervisor_id        INTEGER      REFERENCES employees(id) ON DELETE SET NULL,
 	password_hash        VARCHAR(255) NOT NULL,
@@ -35,7 +35,7 @@ CREATE INDEX idx_employees_supervisor_id ON employees(supervisor_id);
 -- ------------------------------------------------------------
 CREATE TABLE team_month_off_dates (
 	id        SERIAL PRIMARY KEY,
-	team_key  VARCHAR(20) NOT NULL CHECK (team_key IN ('friSat', 'sunMon')),
+	team_key  VARCHAR(20) NOT NULL CHECK (team_key IN ('friSat', 'sunMon', 'satSun')),
 	year      INTEGER     NOT NULL,
 	month     INTEGER     NOT NULL CHECK (month BETWEEN 1 AND 12),
 	off_day   INTEGER     NOT NULL CHECK (off_day BETWEEN 1 AND 31),
