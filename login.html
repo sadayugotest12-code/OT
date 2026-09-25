@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>เข้าสู่ระบบ - ระบบจัดการ OT</title>
+	<link rel="stylesheet" href="ot.css" />
+	<style>
+		.login-wrap { max-width: 380px; margin: 10vh auto; padding: 0 16px; }
+		.login-card { background: var(--panel); border-radius: 16px; box-shadow: var(--shadow); padding: 28px 24px; }
+		.login-card h1 { font-size: 20px; margin: 0 0 4px; }
+		.login-card p { color: var(--muted); font-size: 13px; margin: 0 0 20px; }
+		.login-card label { display: block; font-size: 13px; margin-bottom: 6px; color: var(--muted); }
+		.login-card input { width: 100%; padding: 10px 12px; border: 1px solid var(--grid); border-radius: 8px; font-size: 15px; margin-bottom: 16px; }
+		.login-card button { width: 100%; padding: 11px; border: none; border-radius: 8px; background: var(--brand); color: #fff; font-size: 15px; cursor: pointer; }
+		.login-card button:disabled { opacity: .6; cursor: not-allowed; }
+		.login-error { color: var(--danger); font-size: 13px; min-height: 18px; margin-bottom: 8px; }
+	</style>
+</head>
+<body>
+	<div class="login-wrap">
+		<div class="login-card">
+			<h1>เข้าสู่ระบบ</h1>
+			<p>Username และ Password คือรหัสพนักงานของคุณ</p>
+			<form id="loginForm">
+				<label for="username">รหัสพนักงาน (Username)</label>
+				<input id="username" name="username" autocomplete="username" required />
+				<label for="password">รหัสผ่าน (Password)</label>
+				<input id="password" name="password" type="password" autocomplete="current-password" required />
+				<div class="login-error" id="loginError"></div>
+				<button type="submit" id="loginBtn">เข้าสู่ระบบ</button>
+			</form>
+		</div>
+	</div>
+
+	<script src="auth.js"></script>
+	<script>
+		const form = document.getElementById("loginForm");
+		const errorBox = document.getElementById("loginError");
+		const btn = document.getElementById("loginBtn");
+
+		form.addEventListener("submit", async (e) => {
+			e.preventDefault();
+			errorBox.textContent = "";
+			btn.disabled = true;
+			try {
+				const username = document.getElementById("username").value.trim();
+				const password = document.getElementById("password").value;
+				const data = await OTAuth.login(username, password);
+				if (data.mustChangePassword) {
+					window.location.href = "change-password.html";
+				} else {
+					window.location.href = "ot.html";
+				}
+			} catch (err) {
+				errorBox.textContent = err.message || "เข้าสู่ระบบไม่สำเร็จ";
+			} finally {
+				btn.disabled = false;
+			}
+		});
+	</script>
+</body>
+</html>

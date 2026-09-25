@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Plan Overtime</title>
+	<link rel="stylesheet" href="ot.css?v=20260910" />
+</head>
+<body>
+	<div class="container">
+		<header class="hero">
+			<div class="hero-top">
+				<div>
+					<h1 id="pageTitle">Plan Overtime</h1>
+					<p>บริหารเวลาปฏิบัติงานและวันลา สรุปผลอัตโนมัติ พร้อมตรวจสอบข้อกำหนดชั่วโมงการทำงาน"</p>
+				</div>
+				<div class="user-info">
+					<span id="currentUserLabel"></span>
+					<button class="btn secondary" id="btnLogout" type="button">ออกจากระบบ</button>
+				</div>
+			</div>
+			<div class="toolbar">
+				<div class="group">
+					<label for="yearSelect">ปี</label>
+					<select id="yearSelect"></select>
+				</div>
+				<div class="group">
+					<label for="monthSelect">เดือน</label>
+					<select id="monthSelect"></select>
+				</div>
+				
+			</div>
+		</header>
+
+		<div class="tabs">
+			<button class="tab-btn active" data-tab="plan">แท็บ 1: วางแผนและบันทึก OT</button>
+			<button class="tab-btn" data-tab="report">แท็บ 2: Dashboard &amp; Report</button>
+		</div>
+
+		<section id="tab-plan" class="tab-panel active">
+			<div class="card">
+				<div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 15px;">
+					<!-- กลุ่มปุ่มสลับหน้า (อยู่ด้านซ้าย) -->
+					<div class="subtab-container" style="display: flex; gap: 10px;">
+						<button class="subtab-btn active" data-subtab="monthly">รูปแบบที่ 1: วางแผนทั้งเดือน</button>
+						<button class="subtab-btn" data-subtab="daily">รูปแบบที่ 2: บันทึกรายวัน + วันลา</button>
+					</div>
+
+					<!-- ปุ่มยืนยัน (อยู่ด้านขวา - สลับแสดงผลตาม Tab ที่เลือก) -->
+					<div class="confirm-action-container">
+						<button class="btn confirm" id="btnConfirmMonthly" type="button">บันทึกข้อมูล</button>
+						<button class="btn confirm" id="btnConfirmDaily" type="button" hidden>บันทึกข้อมูล</button>
+					</div>
+				</div>
+
+				<div id="sub-monthly" class="subpanel active">
+					
+					<h3 class="section-title">Monthly Planning และกำหนด Team / วันหยุด</h3>
+					
+
+					<div class="small" style="margin-bottom:8px;">ตั้งค่าวันหยุดพิเศษรายทีมของเดือนนี้ เช่น Team (Fri-Sat) เพิ่มวันหยุดวันที่ 12,13 ได้จากช่องด้านล่าง</div>
+					<div id="teamConfigWrap"></div>
+					<div class="group" style="margin:12px 0;">
+						<label for="monthlyEmployeeSelect">เลือกพนักงาน</label>
+						<select id="monthlyEmployeeSelect"></select>
+					</div>
+					<div class="legend">
+						<span><i class="dot holiday"></i>วันหยุดประจำทีม (Dynamic)</span>
+						<span><i class="dot leave"></i>วันลา</span>
+						<span><i class="dot streak-warn"></i>ทำงานต่อเนื่อง 6 วัน</span>
+						<span><i class="dot streak-danger"></i>ทำงานต่อเนื่อง 7 วันขึ้นไป</span>
+					</div>
+					<div class="table-wrap" id="monthlyTableWrap"></div>
+				</div>
+
+				<div id="sub-daily" class="subpanel">
+					
+					
+					<h3 class="section-title">Daily Entry (เชื่อมโยงไปแท็บ Dashboard อัตโนมัติ)</h3>
+					
+					<div class="daily-date-toolbar">
+						<label for="dailyDate">วันที่ทำงาน</label>
+						<input type="date" id="dailyDate" />
+					</div>
+					<div class="small">มีช่อง OT 1.5x และ OT 3x แยกกัน, ถ้าเลือกวันลา ระบบจะตั้ง Actual เป็น 0 อัตโนมัติ และบันทึกเหตุผลได้</div>
+					<div class="table-wrap" id="dailyTableWrap"></div>
+				</div>
+			</div>
+		</section>
+
+		<section id="tab-report" class="tab-panel">
+			<div class="card">
+				<div class="actions" style="justify-content: space-between; align-items: center;">
+					<button class="btn warn" id="btnExportPdf">Export to PDF</button>
+					<div class="report-scroll-controls">
+						<button class="btn secondary" id="btnScrollReportUp" type="button" title="เลื่อนขึ้น">↑</button>
+						<button class="btn secondary" id="btnScrollReportDown" type="button" title="เลื่อนลง">↓</button>
+					</div>
+				</div>
+
+				<div class="summary-grid" id="summaryGrid"></div>
+
+				<div class="legend">
+					<span><i class="dot holiday"></i>Holiday by Team (Fri-Sat / Sun-Mon)</span>
+					<span><i class="dot metric"></i>ค่าในช่องรายวัน: 1.5x|3x</span>
+					<span><i class="dot leave"></i>L = Leave</span>
+				</div>
+
+				<div class="table-wrap report-table-wrap" id="reportTableWrap"></div>
+			</div>
+		</section>
+	</div>
+
+	<script src="auth.js?v=20260910"></script>
+	<script src="ot.js?v=20260910"></script>
+</body>
+</html>
