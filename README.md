@@ -94,11 +94,41 @@ API จะทำงานที่ `http://localhost:3001`
 
 ## การเปิดใช้งาน Frontend
 
-เปิดโฟลเดอร์โปรเจกต์ผ่าน local HTTP server แล้วเข้า `login.html` เช่นใช้ VS Code extension Live Server หรือคำสั่งอื่นที่ให้บริการไฟล์ static:
+เปิดโฟลเดอร์โปรเจกต์ผ่าน local HTTP server แล้วเข้า `login.html` ได้หลายวิธี โดยต้องเปิดคำสั่งจากโฟลเดอร์รากของโปรเจกต์นี้
+
+### ใช้ Python
+
+ถ้ามี Python ติดตั้งอยู่แล้ว:
+
+```bash
+python -m http.server 5500
+```
+
+หรือบน Windows บางเครื่องอาจต้องใช้:
+
+```bash
+py -m http.server 5500
+```
+
+### ใช้ Node.js
+
+ถ้ามี Node.js และต้องการใช้แพ็กเกจสำหรับ static server:
+
+```bash
+npx serve . -l 5500
+```
+
+### ใช้ VS Code Live Server
+
+สามารถใช้ VS Code extension Live Server ได้เช่นกัน แต่ไม่ใช่ข้อบังคับ
+
+จากนั้นเปิด URL นี้ในเบราว์เซอร์:
 
 ```text
-http://localhost:<พอร์ตที่ใช้>/login.html
+http://localhost:5500/login.html
 ```
+
+ถ้าเลือกพอร์ตอื่น ให้เปลี่ยนเลข `5500` ใน URL ให้ตรงกับคำสั่งที่ใช้ และเปิด backend API แยกอีกหนึ่ง terminal ด้วย `npm start` จากโฟลเดอร์ `server`
 
 ไม่แนะนำให้เปิดด้วย `file://` เพราะอาจทำให้การเรียก API และการเขียนไฟล์ผ่าน File System Access API ทำงานไม่ครบถ้วน
 
